@@ -1,0 +1,46 @@
+AUTHOR: CH1C4G0
+DATE: 03/06/2026
+
+
+#### Terms defined in Metasploit UI ####
+
+- Exploit: A piece of code that uses a vulnerability preset on the target system
+- Vulnerability: A design, coding, or logic flaw affecting the target system.
+- Payload: An exploit takes advantage of a vulnerability. The result of the exploit is the payload
+    - i.e: Reverse Shell
+
+#### Modules and Categories ####
+
+- Auxiliary: Any supporting module, such as scanners, crawlers, and fuzzers.
+
+- Encoders: A way of obscuring the payload / exploit to evade signature-based antivirus.
+
+- Evasion: Modules that attempt to assist in the avoidance of anti-virus.
+
+- NOPs: No Operation they do nothing, often used as a buffer to achieve consistent payload sizes.
+
+- Payloads: Code that will run on the target system.
+    #### Four Categories Listed Underneath ####
+        - Adapters: wraps a single payload to convert them into different formats
+            - i.e: A normal payload wrapped inside a powershell adapter (powershell executes the payload)
+
+        - Singles: Self-contained payloads (add user, launch notepad, ect.) do not need additional components to run.
+
+        - Stagers: Setup the connection channel between Metasploit and the target system. Useful when working with staged payloads.
+            - Stages Payloads: first uploads a stager on the target system then download the rest of the payload (stage) the inital payload will be small.
+
+        - Stages: Downloaded by the stager. This allows for larger sized payloads.
+
+#### Helpful way of identifying payloads ####
+
+  - ex: generic/shell_reverse_tcp
+  - ex: windows/x64/shell/reverse_tcp
+
+- Both are reverse window shells. The first is an inline or (single) payload as indicated by " _ " between "shell" and "reverse".
+- The second one is a staged payload as indicated by the " / " between shell and reverse.
+
+## Post ##
+
+- These are techniques for post-exploitation.
+
+#### MORE INFORMATION CAN BE FOUND HERE /opt/metasploit-framework/embedded/framework/modules ####
