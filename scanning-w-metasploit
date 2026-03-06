@@ -1,0 +1,101 @@
+
+
+#### Metasploit has a number of modules that can be used to scan open ports ####
+
+- msfconsole 
+    - Loads console
+    
+- search portscan
+    - Lists possible scan modules
+
+#### There is a few parameters you need to satisfy in order for port scans to work ####
+
+- 1: Concurrency: The number of targets to be scanned simultaneously
+
+- 2: Ports: Port range to be scanned 
+
+- 3: RHOSTS: Target or target network to be scanned.
+
+- 4: Threads: Number of threads that will be used simultaneously (More threads = Faster Scan)
+
+#### YOU CAN ALSO USE NMAP FROM MFCONSOLE ####
+
+#### Identifying UDP Services ####
+
+- You can identify UDP Services by using the module below
+    - scanner/discovery/udp_sweep
+
+#### Scanning for SMB ####
+
+### What is SMB? ###
+
+A client-server communication protocol used for sharing access to files, printers, and serial ports on a network, 
+commonly used in Windows environments.
+
+- Especially useful for corporate networks
+    - auxiliary
+          -scanner/smb/smb_version  run
+    - smb_enumshares is also useful.
+
+##### EXAMPLE TEST ####
+
+------ TARGET IP: 10.65.129.194 --------
+
+Q1: How many ports are open on this host?
+
+STEP 1: Find the module that will assist you in answering the qeustion
+      - search portscan
+      
+   #  Name                                              Disclosure Date  Rank    Check  Description
+   -  ----                                              ---------------  ----    -----  -----------
+   0  auxiliary/scanner/portscan/ftpbounce                               normal  No     FTP Bounce Port Scanner
+   1  auxiliary/scanner/natpmp/natpmp_portscan                           normal  No     NAT-PMP External Port Scanner
+   2  auxiliary/scanner/sap/sap_router_portscanner                       normal  No     SAPRouter Port Scanner
+   3  auxiliary/scanner/portscan/xmas                                    normal  No     TCP "XMas" Port Scanner
+   4  auxiliary/scanner/portscan/ack                                     normal  No     TCP ACK Firewall Scanner
+   5  auxiliary/scanner/portscan/tcp                                     normal  No     TCP Port Scanner
+   6  auxiliary/scanner/portscan/syn                                     normal  No     TCP SYN Port Scanner
+   7  auxiliary/scanner/http/wordpress_pingback_access                   normal  No     Wordpress Pingback Locator
+
+- I selected auxiliary/scanner/portscan/tcp
+
+STEP 2: use auxiliary/scanner/portscan/tcp
+    - set RHOSTS 10.65.129.194
+          - Exploit
+
+Answer: 5
+[+] 10.65.129.194:        - 10.65.129.194:22 - TCP OPEN
+[+] 10.65.129.194:        - 10.65.129.194:21 - TCP OPEN
+[+] 10.65.129.194:        - 10.65.129.194:139 - TCP OPEN
+[+] 10.65.129.194:        - 10.65.129.194:445 - TCP OPEN
+[+] 10.65.129.194:        - 10.65.129.194:8000 - TCP OPEN
+[*] 10.65.129.194:        - Scanned 1 of 1 hosts (100% complete)
+[*] Auxiliary module execution completed
+
+Q:2: Using the relevant scanner, what NetBIOS name can you see?
+
+STEP 1: Find the module that will assist you in answering the question
+      - search netbios
+   #  Name                                          Disclosure Date  Rank    Check  Description
+   -  ----                                          ---------------  ----    -----  -----------
+   0  auxiliary/scanner/http/ntlm_info_enumeration                   normal  No     Host Information Enumeration via NTLM Authentication
+   1  auxiliary/spoof/llmnr/llmnr_response                           normal  No     LLMNR Spoofer
+   2  auxiliary/scanner/netbios/nbname                               normal  No     NetBIOS Information Discovery
+   3  auxiliary/spoof/nbns/nbns_response                             normal  No     NetBIOS Name Service Spoofer
+   4  auxiliary/server/netbios_spoof_nat            2016-06-14       normal  No     NetBIOS Response "BadTunnel" Brute Force Spoof (NAT Tunnel)
+   5  auxiliary/admin/netbios/netbios_spoof                          normal  No     NetBIOS Response Brute Force Spoof (Direct)
+   6  auxiliary/dos/smb/smb_loris                   2017-06-29       normal  No     SMBLoris NBSS Denial of Service
+   7  auxiliary/server/wpad                                          normal  No     WPAD.dat File Server
+
+
+
+STEP 2: use auxiliary/scanner/nbname
+    - set RHOSTS 10.65.129.194
+        - exploit
+
+Answer: ACME IT SUPPORT
+
+[*] Sending NetBIOS requests to 10.65.129.194->10.65.129.194 (1 hosts)
+[+] 10.65.129.194 [] OS:Unix Names:(__MSBROWSE__, , ACME IT SUPPORT)  Mac:00:00:00:00:00:00 
+[*] Scanned 1 of 1 hosts (100% complete)
+[*] Auxiliary module execution completed
