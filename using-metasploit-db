@@ -1,0 +1,185 @@
+
+
+#### How to start the Database ####
+
+- Metasploit uses PostgreSQL 
+    - You can start PostgreSQL with "systemctl start postgresql"
+
+- You then need to intialize the Database 
+    - msfdb init 
+- NOTE: running this as root will throw an error, if you are using root in kali use 
+    - sudo -u postgres msfdb init
+
+      - delete databases with sudo -u postgres msfdb delete
+
+#### Check the status of your DB ###
+
+NOTE: msfconsole must be running before running this command
+
+    - db_status
+
+msf6 > db_status
+[*] Connected to msf. Connection type: postgresql.
+
+#### Checking, Creating, and Adding workspaces ####
+
+#### What are workspaces in Metasploit? ####
+
+- Workspaces allow you to segment your pentration tests into easily accessible containers.
+    - hosts, vulnerabilites, and loot are stored here.
+
+- NOTE: you can check your workspaces with,
+
+    - workspace 
+
+msf6 > workspace
+  default
+* tryhackme
+
+- Your current work space will be highlighted with "*".
+
+#### How to add / delete workspace ###
+
+- You can use the -a and -d options to achieve creation and deletion.
+
+    - workspace -a testworkspace
+
+msf6 > workspace -a testworkspace
+[*] Added workspace: testworkspace
+[*] Workspace: testworkspace
+
+    - workspace -d testworkspace
+
+msf6 > workspace -d testworkspace
+[*] Deleted workspace: testworkspace
+[*] Switched to workspace: default
+
+NOTE: Removing a workspace will put you back to the default workspace
+
+#### Changing workspaces ####
+
+- You can change workspaces by using workspace then specifying the workspace name
+
+    - workspace -a tryhackme
+
+msf6 > workspace -a tryhackme
+[*] Added workspace: tryhackme
+[*] Workspace: tryhackme
+msf6 > workspace tryhackme
+[*] Workspace: tryhackme
+
+    - workspace tryhackme
+
+msf6 > workspace tryhackme
+[*] Workspace: tryhackme
+
+- Check to see if your workspace switched,
+
+    - workspace
+
+msf6 > workspace
+  default
+* tryhackme
+
+- Again, your current workspace will be highlighted with " * " 
+
+#### Running an NMAP scan within your workspace ####
+
+- You can run nmap scans directly from your db / workspace
+
+    - db_nmap -sV -p- 000.000.000.000
+
+msf6 > db_nmap -sV -p- 10.66.138.107
+[*] Nmap: Starting Nmap 7.93 ( https://nmap.org ) at 2026-03-07 05:27 UTC
+[*] Nmap: Nmap scan report for ip-10-66-138-107.ec2.internal (10.66.138.107)
+[*] Nmap: Host is up (0.0027s latency).
+[*] Nmap: Not shown: 65530 closed tcp ports (reset)
+[*] Nmap: PORT     STATE SERVICE     VERSION
+[*] Nmap: 21/tcp   open  ftp         ProFTPD
+[*] Nmap: 22/tcp   open  ssh         OpenSSH 8.2p1 Ubuntu 4ubuntu0.13 (Ubuntu Linux; protocol 2.0)
+[*] Nmap: 139/tcp  open  netbios-ssn Samba smbd 4.6.2
+[*] Nmap: 445/tcp  open  netbios-ssn Samba smbd 4.6.2
+[*] Nmap: 8000/tcp open  http        WebFS httpd 1.21
+[*] Nmap: Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
+[*] Nmap: Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+[*] Nmap: Nmap done: 1 IP address (1 host up) scanned in 17.83 seconds
+
+- This data will now be stored within your workspace, it can be accessed by using the following.
+
+    - hosts (lists scanned hosts)
+
+msf6 > hosts
+
+Hosts
+=====
+
+address      mac  name               os_name  os_flavor  os_sp  purpose  info  comments
+-------      ---  ----               -------  ---------  -----  -------  ----  --------
+10.66.138.1       ip-10-66-138-107.  Unknown                    device
+
+    - services (lists active services of scanned hosts)
+
+msf6 > services
+Services
+========
+
+host          port  proto  name         state  info
+----          ----  -----  ----         -----  ----
+10.66.138.10  21    tcp    ftp          open   ProFTPD
+7
+10.66.138.10  22    tcp    ssh          open   OpenSSH 8.2p1 Ubuntu 4ubuntu0.13 Ubuntu
+7                                              Linux; protocol 2.0
+10.66.138.10  139   tcp    netbios-ssn  open   Samba smbd 4.6.2
+7
+10.66.138.10  445   tcp    netbios-ssn  open   Samba smbd 4.6.2
+7
+10.66.138.10  8000  tcp    http         open   WebFS httpd 1.21
+
+- NOTE: you can use the services -h or hosts -h for help with that specific prompt.
+    - using "help" will provide you help with database syntax
+
+#### Workflow when scanning for vulnerabilities ####
+
+- When you produce a host entry, it will set a global host address within the workspace.
+    - You can check this with
+        - hosts -R
+
+msf6 auxiliary(scanner/smb/smb_ms17_010) > hosts -R
+
+Hosts
+=====
+
+address      mac  name               os_name  os_flavor  os_sp  purpose  info  comments
+-------      ---  ----               -------  ---------  -----  -------  ----  --------
+10.66.138.1       ip-10-66-138-107.  Unknown                    device
+07                ec2.internal
+
+RHOSTS => 10.66.138.107
+
+- Make sure your parameters are assigned properly.
+
+#### Searching for services / hosts within your environment ####
+
+    - services -S
+
+msf6 auxiliary(scanner/smb/smb_ms17_010) > services -S netbios
+Services
+========
+
+host           port  proto  name         state  info
+----           ----  -----  ----         -----  ----
+10.66.138.107  139   tcp    netbios-ssn  open   Samba smbd 4.6.2
+10.66.138.107  445   tcp    netbios-ssn  open   Samba smbd 4.6.2
+
+#### Things to look for ####
+
+You may want to look for low-hanging fruits such as:
+
+    HTTP: Could potentially host a web application where you can find vulnerabilities like SQL injection or Remote Code Execution (RCE).
+    FTP: Could allow anonymous login and provide access to interesting files.
+    SMB: Could be vulnerable to SMB exploits like MS17-010
+    SSH: Could have default or easy to guess credentials
+    RDP: Could be vulnerable to Bluekeep or allow desktop access if weak credentials were used. 
+
+
+
