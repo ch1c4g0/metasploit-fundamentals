@@ -99,3 +99,48 @@ Answer: ACME IT SUPPORT
 [+] 10.65.129.194 [] OS:Unix Names:(__MSBROWSE__, , ACME IT SUPPORT)  Mac:00:00:00:00:00:00 
 [*] Scanned 1 of 1 hosts (100% complete)
 [*] Auxiliary module execution completed
+
+Q3: What service is running on port 8080?
+
+STEP 1: Find the module that will assist you in answering the question (this one was tough for me)
+        - I had to use the hint button on THM to know where to look, it led me to using the http_version module.
+            - search http_version
+                - use 0 / auxiliary/scanner/http/http_version
+                    - exploit
+
+PROBLEM: Below is all that showed up, unsure what the issue is.
+
+[*] Scanned 1 of 1 hosts (100% complete)
+[*] Auxiliary module execution completed
+
+- I was unable to get the module to work, so I just used NMAP with the -sV flag.
+    - sV is used for discovery services running on ports
+        - If you want a nmap cheat sheet you can find it here: https://cdn.comparitech.com/wp-content/uploads/2019/06/Nmap-Cheat-Sheet.pdf
+
+ANSWER: 
+
+msf6 auxiliary(scanner/http/http_version) > nmap -sV 10.66.138.107
+
+[*] exec: nmap -sV 10.66.138.107
+
+Starting Nmap 7.93 ( https://nmap.org ) at 2026-03-07 04:29 UTC
+Nmap scan report for ip-10-66-138-107.ec2.internal (10.66.138.107)
+Host is up (0.0012s latency).
+Not shown: 995 closed tcp ports (reset)
+PORT     STATE SERVICE     VERSION
+21/tcp   open  ftp         ProFTPD
+22/tcp   open  ssh         OpenSSH 8.2p1 Ubuntu 4ubuntu0.13 (Ubuntu Linux; protocol 2.0)
+139/tcp  open  netbios-ssn Samba smbd 4.6.2
+445/tcp  open  netbios-ssn Samba smbd 4.6.2
+8000/tcp open  http        WebFS httpd 1.21
+Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
+
+Q3: What is the "penny" user's SMB password? Use the wordlist mentioned in the previous task.
+
+STEP 1: Find the correct module to answer the question
+        - search smb login
+            - use auxiliary/scanner/smb_login
+                - set RHOSTS 10.66.138.107
+                    - set SMBUser penny
+                        - set PASS_FILE /usr/share/wordlists/metasploit/need.txt(provided in room)
+ANSWER: leo1234
