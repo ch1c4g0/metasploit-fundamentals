@@ -1,40 +1,45 @@
 
 
-#### How to start the Database ####
+<h1>How to start the Database<h1>
 
-- Metasploit uses PostgreSQL 
-    - You can start PostgreSQL with "systemctl start postgresql"
+><h5><p>Metasploit uses PostgreSQL</p><h5>
+<h5></h5>
+<p>You can start PostgreSQL with</p>
 
-- You then need to intialize the Database 
-    - msfdb init 
-- NOTE: running this as root will throw an error, if you are using root in kali use 
-    - sudo -u postgres msfdb init
+```$ systemctl start postgresql```
 
-      - delete databases with sudo -u postgres msfdb delete
+><p>You then need to intialize the Database<p>
 
-#### Check the status of your DB ###
+```$ msfdb init```
+><p>Please note,running this as root will throw an error, if you are using root in kali use,</p> 
 
-NOTE: msfconsole must be running before running this command
+```$ sudo -u postgres msfdb init```
 
-    - db_status
+><p>You can also delete databases with,</p>
 
-msf6 > db_status
-[*] Connected to msf. Connection type: postgresql.
+```$ delete databases with sudo -u postgres msfdb delete```
 
-#### Checking, Creating, and Adding workspaces ####
+<p><h1>Check the status of your DB</h1></p>
 
-#### What are workspaces in Metasploit? ####
+<p>NOTE: msfconsole must be running before running this command</p>
 
-- Workspaces allow you to segment your pentration tests into easily accessible containers.
-    - hosts, vulnerabilites, and loot are stored here.
+```msf6> db_status```
 
-- NOTE: you can check your workspaces with,
+```[*] Connected to msf. Connection type: postgresql.```
 
-    - workspace 
+<p><h1>Checking, Creating, and Adding workspaces</h1></p>
 
-msf6 > workspace
-  default
-* tryhackme
+><p><h2>What are workspaces in Metasploit?</h2></p>
+>
+> - <p>Workspaces allow you to segment your pentration tests into easily accessible containers.</p>
+> - <p>hosts, vulnerabilites, and loot are stored here.</p>
+
+<p>NOTE: you can check your workspaces with,</p>
+
+```msf6> workspace```
+```msf6> workspace```
+```default```
+```*tryhackme```
 
 - Your current work space will be highlighted with "*".
 
