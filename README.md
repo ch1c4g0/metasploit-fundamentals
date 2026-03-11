@@ -1,2 +1,2 @@
 # metasploit-fundamentals
-Documenting my learning process for Metasploit, specifically msfconsole(non-gui).
+<p>Documenting my learning process for Metasploit, specifically msfconsole and msfvenom.</p>
