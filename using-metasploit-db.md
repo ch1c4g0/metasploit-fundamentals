@@ -8,9 +8,13 @@
 
 ```$ systemctl start postgresql```
 
+![start-postgresql](https://github.com/ch1c4g0/metasploit-fundamentals/blob/37d0813fbe41be5e85f1dcab2faebc3784da0df8/using-metasploit-screenshots/Screenshot%202026-03-10%20at%2020-31-54%20TryHackMe%20Metasploit%20Meterpreter.png)
 ><p>You then need to intialize the Database<p>
 
 ```$ msfdb init```
+
+![init-db](https://github.com/ch1c4g0/metasploit-fundamentals/blob/9f03c3391efcf6f5bf9ca32fa0c76891919d2434/using-metasploit-screenshots/Screenshot%202026-03-10%20at%2020-38-37%20TryHackMe%20Metasploit%20Meterpreter.png)
+
 ><p>Please note,running this as root will throw an error, if you are using root in kali use,</p> 
 
 ```$ sudo -u postgres msfdb init```
@@ -23,9 +27,11 @@
 
 <p>NOTE: msfconsole must be running before running this command</p>
 
-```msf6> db_status```
+![start-msf-console](https://github.com/ch1c4g0/metasploit-fundamentals/blob/29231ab389c9ab64a8e73d72c5d9de26f5862daf/using-metasploit-screenshots/Screenshot%202026-03-10%20at%2020-41-27%20TryHackMe%20Metasploit%20Meterpreter.png)
 
-```[*] Connected to msf. Connection type: postgresql.```
+```$ msf6 db_status```
+
+![db-status](https://github.com/ch1c4g0/metasploit-fundamentals/blob/4496d03902c0ced65aad6d4470c3f2595753b968/using-metasploit-screenshots/Screenshot%202026-03-10%20at%2020-43-36%20TryHackMe%20Metasploit%20Meterpreter.png)
 
 <p><h1>Checking, Creating, and Adding workspaces</h1></p>
 
@@ -36,112 +42,70 @@
 
 <p>NOTE: you can check your workspaces with,</p>
 
-```msf6> workspace```
-```msf6> workspace```
-```default```
-```*tryhackme```
+```$ msf6 workspace```
 
-- Your current work space will be highlighted with "*".
+[check-workspace](https://github.com/ch1c4g0/metasploit-fundamentals/blob/c86910561a53dc513d548d679e345fd80db60cf8/using-metasploit-screenshots/Screenshot%202026-03-10%20at%2020-46-33%20TryHackMe%20Metasploit%20Meterpreter.png)
 
-#### How to add / delete workspace ###
+<p>Your current work space will be highlighted with "*".</p>
 
-- You can use the -a and -d options to achieve creation and deletion.
+><p><h1>How to add / delete workspace</h1></p>
+>
+><p>You can use the -a and -d options to achieve creation and deletion.</p>
 
-    - workspace -a testworkspace
+```$ workspace -a testworkspace```
 
-msf6 > workspace -a testworkspace
-[*] Added workspace: testworkspace
-[*] Workspace: testworkspace
+![add-workspace](https://github.com/ch1c4g0/metasploit-fundamentals/blob/ff76dd2f20aad3ea21be00433260748e58bbd103/using-metasploit-screenshots/Screenshot%202026-03-10%20at%2020-51-39%20TryHackMe%20Metasploit%20Meterpreter.png)
 
-    - workspace -d testworkspace
+```$ workspace -d testworkspace```
 
-msf6 > workspace -d testworkspace
-[*] Deleted workspace: testworkspace
-[*] Switched to workspace: default
+![delete-workspace](https://github.com/ch1c4g0/metasploit-fundamentals/blob/0fed3a1bf091742d9965add7f58bcfa38f886c30/using-metasploit-screenshots/Screenshot%202026-03-10%20at%2020-54-46%20TryHackMe%20Metasploit%20Meterpreter.png)
 
-NOTE: Removing a workspace will put you back to the default workspace
+<p>NOTE: Removing a workspace will put you back to the default workspace</p>
 
-#### Changing workspaces ####
+<p><h1>Changing workspaces</h1></p>
 
-- You can change workspaces by using workspace then specifying the workspace name
+<p>You can change workspaces by using workspace then specifying the workspace name</p>
 
-    - workspace -a tryhackme
+<p>Creating the workspace again,</p>
 
-msf6 > workspace -a tryhackme
-[*] Added workspace: tryhackme
-[*] Workspace: tryhackme
-msf6 > workspace tryhackme
-[*] Workspace: tryhackme
+```$ workspace -a tryhackme```
 
-    - workspace tryhackme
+![add-thm-workspace](https://github.com/ch1c4g0/metasploit-fundamentals/blob/66be766561a32ae489ca12b3e4b236dda45417b7/using-metasploit-screenshots/Screenshot%202026-03-10%20at%2020-57-13%20TryHackMe%20Metasploit%20Meterpreter.png)
 
-msf6 > workspace tryhackme
-[*] Workspace: tryhackme
+<p>Changing to the tryhackme workspace,</p>
 
-- Check to see if your workspace switched,
+```$ workspace tryhackme```
 
-    - workspace
+[change-to-thm-workspace](https://github.com/ch1c4g0/metasploit-fundamentals/blob/ee1bc115486832184ffe9ea64de9fa2b0803d9b3/using-metasploit-screenshots/Screenshot%202026-03-10%20at%2020-59-41%20TryHackMe%20Metasploit%20Meterpreter.png)
 
-msf6 > workspace
-  default
-* tryhackme
+<p>Check to see if your workspace switched,</p>
 
-- Again, your current workspace will be highlighted with " * " 
+```$ workspace```
 
-#### Running an NMAP scan within your workspace ####
+![confirm-workspace-change](https://github.com/ch1c4g0/metasploit-fundamentals/blob/8222e0823543a3f10a3ba766768000168149cf59/using-metasploit-screenshots/Screenshot%202026-03-10%20at%2021-01-24%20TryHackMe%20Metasploit%20Meterpreter.png)
 
-- You can run nmap scans directly from your db / workspace
+<p>Again, your current workspace will be highlighted with " * "</p>
 
-    - db_nmap -sV -p- 000.000.000.000
+><p><h1>Running an NMAP scan within your workspace</h1></p>
+>
+><p>You can run nmap scans directly from your db / workspace,</p>
 
-msf6 > db_nmap -sV -p- 10.66.138.107
-[*] Nmap: Starting Nmap 7.93 ( https://nmap.org ) at 2026-03-07 05:27 UTC
-[*] Nmap: Nmap scan report for ip-10-66-138-107.ec2.internal (10.66.138.107)
-[*] Nmap: Host is up (0.0027s latency).
-[*] Nmap: Not shown: 65530 closed tcp ports (reset)
-[*] Nmap: PORT     STATE SERVICE     VERSION
-[*] Nmap: 21/tcp   open  ftp         ProFTPD
-[*] Nmap: 22/tcp   open  ssh         OpenSSH 8.2p1 Ubuntu 4ubuntu0.13 (Ubuntu Linux; protocol 2.0)
-[*] Nmap: 139/tcp  open  netbios-ssn Samba smbd 4.6.2
-[*] Nmap: 445/tcp  open  netbios-ssn Samba smbd 4.6.2
-[*] Nmap: 8000/tcp open  http        WebFS httpd 1.21
-[*] Nmap: Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
-[*] Nmap: Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
-[*] Nmap: Nmap done: 1 IP address (1 host up) scanned in 17.83 seconds
+```$ db_nmap -sV -p- 000.000.000.000```
 
-- This data will now be stored within your workspace, it can be accessed by using the following.
+![db-in-nmap](https://github.com/ch1c4g0/metasploit-fundamentals/blob/be3da027abb097f2ae9183f37afacb5fe783c5b2/using-metasploit-screenshots/Screenshot%202026-03-10%20at%2021-09-13%20TryHackMe%20Metasploit%20Exploitation.png)
 
-    - hosts (lists scanned hosts)
+<p>This data will now be stored within your workspace, it can be accessed by using the following,</p>
 
-msf6 > hosts
+```$ hosts``` 
 
-Hosts
-=====
+![running-hosts-after-nmap](https://github.com/ch1c4g0/metasploit-fundamentals/blob/3d2bdb5fcaf4138f240a77758eab80193fb605fb/using-metasploit-screenshots/Screenshot%202026-03-10%20at%2021-11-18%20TryHackMe%20Metasploit%20Exploitation.png)
 
-address      mac  name               os_name  os_flavor  os_sp  purpose  info  comments
--------      ---  ----               -------  ---------  -----  -------  ----  --------
-10.66.138.1       ip-10-66-138-107.  Unknown                    device
+```$ services```
 
-    - services (lists active services of scanned hosts)
+![list-ports-in-db](https://github.com/ch1c4g0/metasploit-fundamentals/blob/b3cfa0395cafc476c934e20c46dd21a78f0cf4a3/using-metasploit-screenshots/Screenshot%202026-03-10%20at%2021-13-26%20TryHackMe%20Metasploit%20Exploitation.png)
 
-msf6 > services
-Services
-========
-
-host          port  proto  name         state  info
-----          ----  -----  ----         -----  ----
-10.66.138.10  21    tcp    ftp          open   ProFTPD
-7
-10.66.138.10  22    tcp    ssh          open   OpenSSH 8.2p1 Ubuntu 4ubuntu0.13 Ubuntu
-7                                              Linux; protocol 2.0
-10.66.138.10  139   tcp    netbios-ssn  open   Samba smbd 4.6.2
-7
-10.66.138.10  445   tcp    netbios-ssn  open   Samba smbd 4.6.2
-7
-10.66.138.10  8000  tcp    http         open   WebFS httpd 1.21
-
-- NOTE: you can use the services -h or hosts -h for help with that specific prompt.
-    - using "help" will provide you help with database syntax
+<p>NOTE: you can use the services -h or hosts -h for help with that specific prompt.<br>
+using "help" will provide you help with database syntax</p>
 
 #### Workflow when scanning for vulnerabilities ####
 
