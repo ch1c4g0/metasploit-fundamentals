@@ -107,48 +107,24 @@
 <p>NOTE: you can use the services -h or hosts -h for help with that specific prompt.<br>
 using "help" will provide you help with database syntax</p>
 
-#### Workflow when scanning for vulnerabilities ####
+<p><h1>Workflow when scanning for vulnerabilities</h1></p>
+<p>When you produce a host entry, it will set a global host address within the workspace.</p>
 
-- When you produce a host entry, it will set a global host address within the workspace.
-    - You can check this with
-        - hosts -R
+```$ hosts -R```
 
-msf6 auxiliary(scanner/smb/smb_ms17_010) > hosts -R
+![r-hosts-example](https://github.com/ch1c4g0/metasploit-fundamentals/blob/0055794140e5bbf1710002702765b34dbd66b30a/using-metasploit-screenshots/Screenshot%202026-03-11%20at%2020-56-36%20TryHackMe%20Metasploit%20Exploitation.png)
 
-Hosts
-=====
+<p><h1>Searching for services / hosts within your environment</h1></p>
 
-address      mac  name               os_name  os_flavor  os_sp  purpose  info  comments
--------      ---  ----               -------  ---------  -----  -------  ----  --------
-10.66.138.1       ip-10-66-138-107.  Unknown                    device
-07                ec2.internal
+```$ services -S```
 
-RHOSTS => 10.66.138.107
-
-- Make sure your parameters are assigned properly.
-
-#### Searching for services / hosts within your environment ####
-
-    - services -S
-
-msf6 auxiliary(scanner/smb/smb_ms17_010) > services -S netbios
-Services
-========
-
-host           port  proto  name         state  info
-----           ----  -----  ----         -----  ----
-10.66.138.107  139   tcp    netbios-ssn  open   Samba smbd 4.6.2
-10.66.138.107  445   tcp    netbios-ssn  open   Samba smbd 4.6.2
-
-#### Things to look for ####
-
-You may want to look for low-hanging fruits such as:
-
-    HTTP: Could potentially host a web application where you can find vulnerabilities like SQL injection or Remote Code Execution (RCE).
-    FTP: Could allow anonymous login and provide access to interesting files.
-    SMB: Could be vulnerable to SMB exploits like MS17-010
-    SSH: Could have default or easy to guess credentials
-    RDP: Could be vulnerable to Bluekeep or allow desktop access if weak credentials were used. 
+><p><h1>Things to look for</h1></p>
+>
+> - HTTP: Could potentially host a web application where you can find vulnerabilities like SQL injection or Remote Code Execution (RCE).
+> - FTP: Could allow anonymous login and provide access to interesting files.
+> - SMB: Could be vulnerable to SMB exploits like MS17-010
+> - SSH: Could have default or easy to guess credentials
+> - RDP: Could be vulnerable to Bluekeep or allow desktop access if weak credentials were used. 
 
 
 
