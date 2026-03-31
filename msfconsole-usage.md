@@ -139,6 +139,7 @@ background
 <p>You can view your open sessions / background sessions with the "sessions" command.</p>
 
 <p>You can interact with the open sessions by using,</p>
+
 ```
 sessions -i (session # )
 ```
