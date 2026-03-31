@@ -54,63 +54,99 @@ AverageRanking	        The exploit is generally unreliable or difficult to explo
 LowRanking	        The exploit is nearly impossible to exploit (under 50% success rate) for common platforms.
 
 ManualRanking	        The exploit is unstable or difficult to exploit and is basically a DoS (15% success rate or lower). This ranking is also used when the module has no use unless specifically configured by the user (e.g.: exploit/unix/webapp/php_eval).
-======================================================================================================================================================================================================================================================================+
+======================================================================================================================================================================================================================================================================
 ```
 
-#### SHOW OPTIONS IS CRUCIAL ####
+<p><h1>SHOW OPTIONS IS CRUCIAL</h1></p>
 
-- This allows you to see the parameters you must satisy for the module to work
+```
+show options
+```
 
-#### How to set parameters ####
+<p>This allows you to see the parameters you must satisy for the module to work</p>
 
+<p><h1>How to Set Parameters</h1></p>
+
+```
 - set PARAMETER_NAME VALUE
+```
 
-### You can also use unset to remove values ###
+<p><h1>Unsetting Parameter Values</h1></p>
 
+```
 - unset param value
 
         or
         
 - unset all
     - unsets all parameters
+```
 
-### How set parameter values accross modules ###
+<p><h1>How to set parameters accross modules</h1></p>
 
-- You can set values that will stay even when you switch modules by using "setg"
+<p>You can set values that will stay even when you switch modules by using</p>
 
-    - You can also remove these global parameters by using "unsetg"
+```
+"setg"
+
+You can also remove these global parameters by using.
+
+"unsetg"
+
+```
     
-#### Common parameters ####
+<p><h1>Common Parameters</h1></p>
 
-Parameters you will often use are:
+```
+==========================================================================================================================================
+RHOSTS: “Remote host”, the IP address of the target system. A single IP address or a network range can be set. This will support the CIDR (Classless Inter-Domain Routing) notation (/24, /16, etc.) or a network range (10.10.10.x – 10.10.10.y). You can also use a file where targets are listed, one target per line using file:/path/of/the/target_file.txt, as you can see below.
+==========================================================================================================================================
+RPORT: “Remote port”, the port on the target system the vulnerable application is running on.
+==========================================================================================================================================
+PAYLOAD: The payload you will use with the exploit.
+==========================================================================================================================================
+LHOST: “Localhost”, the attacking machine (your AttackBox or Kali Linux) IP address.
+==========================================================================================================================================
+LPORT: “Local port”, the port you will use for the reverse shell to connect back to. This is a port on your attacking machine, and you can set it to any port not used by any other application.
+==========================================================================================================================================
+SESSION: Each connection established to the target system using Metasploit will have a session ID. You will use this with post-exploitation modules that will connect to the target system using an existing connection.
+==========================================================================================================================================
+```
+<p><h1>Executing the payload</h1></p>
 
-    RHOSTS: “Remote host”, the IP address of the target system. A single IP address or a network range can be set. This will support the CIDR (Classless Inter-Domain Routing) notation (/24, /16, etc.) or a network range (10.10.10.x – 10.10.10.y). You can also use a file where targets are listed, one target per line using file:/path/of/the/target_file.txt, as you can see below.
-    RPORT: “Remote port”, the port on the target system the vulnerable application is running on.
-    PAYLOAD: The payload you will use with the exploit.
-    LHOST: “Localhost”, the attacking machine (your AttackBox or Kali Linux) IP address.
-    LPORT: “Local port”, the port you will use for the reverse shell to connect back to. This is a port on your attacking machine, and you can set it to any port not used by any other application.
-    SESSION: Each connection established to the target system using Metasploit will have a session ID. You will use this with post-exploitation modules that will connect to the target system using an existing connection.
+<p>Once all parameters are set you can execute your payload with "exploit" or "run"</p>
 
-#### Executing your payload ###
+```
+exploit
+```
+```
+run
+```
+<p><h1>How to clear the payload</h1></p>
 
-- Once all parameters are set you can execute your payload with "exploit" or "run"
+```
+unset "PAYLOAD"
+```
 
-#### Cleaaring a payload ####
+<p><h1>Running successfully exploited machines in background mode.</h1></p>
 
-- unset "PAYLOAD"
+<p>simply type "background" after successful execution</p>
 
-#### You can run successfully connected exploits in background mode ####
+```
+background
+```
 
-- simply type "background" after successful execution
+<p>You can view your open sessions / background sessions with the "sessions" command.</p>
 
-    - You can view your open sessions / background sessions with the "sessions" command.
+<p>You can interact with the open sessions by using,</p>
+```
+sessions -i (session # )
+```
 
-          - You can interact with the open sessions by using "sessions -i (session # )
+<p><h1>Meterpreter</h1></p>
 
-#### Merterpreter ####
-
-- An important payload. This means the merterpreter payload was loaded into the target system and connected back to you.
-    - This will allow you to get a shell, ect.
+<p>An important payload. This means the merterpreter payload was loaded into the target system and connected back to you.<br>
+This will allow you to get a shell, ect.</p>
 
 
 
