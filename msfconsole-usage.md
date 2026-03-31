@@ -35,7 +35,7 @@ use (exploit type) path/to/exploit
     - show options
 ```
 
-<p><h1>Exploits Rankings</h1></p>
+<p><h1>Exploits rankings</h1></p>
 
 ```
 =======================================================================================================================================================================================================================================================================
@@ -57,7 +57,7 @@ ManualRanking	        The exploit is unstable or difficult to exploit and is bas
 ======================================================================================================================================================================================================================================================================
 ```
 
-<p><h1>SHOW OPTIONS IS CRUCIAL</h1></p>
+<p><h1>Show options is crucial,</h1></p>
 
 ```
 show options
@@ -65,13 +65,13 @@ show options
 
 <p>This allows you to see the parameters you must satisy for the module to work</p>
 
-<p><h1>How to Set Parameters</h1></p>
+<p><h1>How to set parameters</h1></p>
 
 ```
 - set PARAMETER_NAME VALUE
 ```
 
-<p><h1>Unsetting Parameter Values</h1></p>
+<p><h1>Unsetting sarameter values</h1></p>
 
 ```
 - unset param value
@@ -95,7 +95,7 @@ You can also remove these global parameters by using.
 
 ```
     
-<p><h1>Common Parameters</h1></p>
+<p><h1>Common parameters</h1></p>
 
 ```
 ==========================================================================================================================================
